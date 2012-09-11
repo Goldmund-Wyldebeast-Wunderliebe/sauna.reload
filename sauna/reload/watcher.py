@@ -26,11 +26,13 @@ registerHandler = SignalHandler.registerHandler
 
 from sauna.reload.forkloop import CannotSpawnNewChild
 from sauna.reload.utils import logger
+from sauna.reload.events import ThemeChanged
 
+from zope.event import notify
 
 class Watcher(FileSystemEventHandler):
 
-    allowed_extensions = set(("py", "zcml", "po"))
+    allowed_extensions = set(("py", "zcml", "po", "html", "xml"))
 
     def __init__(self, paths, forkloop):
         self.forkloop = forkloop
@@ -64,6 +66,11 @@ class Watcher(FileSystemEventHandler):
 
         logger.info("Got '%s' event on %s" %
             (event.event_type, event.src_path))
+
+        if ext in ( "html", "xml" ):
+            notify(ThemeChanged())
+            logger.info("Signaling plone.app.theming")
+            return
 
         try:
             self.forkloop.spawnNewChild()

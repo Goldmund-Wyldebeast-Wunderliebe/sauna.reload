@@ -17,7 +17,7 @@
 
 from zope.interface import implements
 
-from sauna.reload.interfaces import INewChildForked, INewChildIsReady
+from sauna.reload.interfaces import INewChildForked, INewChildIsReady, IThemeChanged
 
 
 class NewChildForked(object):
@@ -32,3 +32,7 @@ class NewChildIsReady(object):
 
     def __init__(self, forkloop):
         self.forkloop = forkloop
+
+
+class ThemeChanged(object):
+    implements(IThemeChanged)

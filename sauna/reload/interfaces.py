@@ -59,3 +59,11 @@ class INewChildIsReady(Interface):
     """
 
     forkloop = Attribute('ForkLoop instance')
+
+
+class IThemeChanged(Interface):
+    """
+    Emitted when either a html or xml file changed
+
+    Will force plone.app.theming to reload it's Diazo configuration   
+    """
